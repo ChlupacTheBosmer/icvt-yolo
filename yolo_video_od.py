@@ -8,14 +8,11 @@ def detect_visitors_on_video(video_path, roi_number, model_path: str = os.path.j
     model = YOLO(model_path)
 
     # Define variables
-    source = 'out.mp4'
-    roi_number = 1
     object_detection_metadata = {}
-
 
     # Run inference on the source
     # TODO: specify parameters
-    results = model(video_path, stream=True, save_txt=True, save=True)  # generator of Results objects
+    results = model(video_path, stream=True, save_txt=False, save=False)  # generator of Results objects
 
     frame_number = 0
     for r in results:
@@ -36,22 +33,22 @@ def detect_visitors_on_video(video_path, roi_number, model_path: str = os.path.j
             # Set variables
             detection = True
             number_of_visitors = r.__len__()
-            print(f"detections: {r.__len__()}")
+            #print(f"detections: {r.__len__()}")
             for i, box in enumerate(r.boxes):
                 boxes.append(r.boxes.xywhn[i].numpy().tolist())
                 confs.append(r.boxes.conf[i].numpy().tolist())
                 classes.append(int(list(r.boxes.cls)[i]))
 
-                print(f"bbox: {r.boxes.xywhn[i].numpy().tolist()}")
-                print(f"conf: {r.boxes.conf[i].numpy().tolist()}")
-                print(f"class names:{int(list(r.boxes.cls)[i])}")
+                # print(f"bbox: {r.boxes.xywhn[i].numpy().tolist()}")
+                # print(f"conf: {r.boxes.conf[i].numpy().tolist()}")
+                # print(f"class names:{int(list(r.boxes.cls)[i])}")
         else:
             detection = False
             number_of_visitors = 0
 
         object_detection_metadata[frame_number] = [detection, number_of_visitors, boxes, confs, classes]
 
-    return object_detection_metadata
+        yield object_detection_metadata
 
 if __name__ == '__main__':
     od_metadata = detect_visitors_on_video('out.mp4', 0)
