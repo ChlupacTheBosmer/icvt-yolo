@@ -15,7 +15,7 @@ def detect_visitors_on_video(video_path, roi_number, model_path: str = os.path.j
 
     # Run inference on the source
     # TODO: specify parameters
-    results = model(source, stream=True, save_txt=True, save=True)  # generator of Results objects
+    results = model(video_path, stream=True, save_txt=True, save=True)  # generator of Results objects
 
     frame_number = 0
     for r in results:
@@ -53,6 +53,6 @@ def detect_visitors_on_video(video_path, roi_number, model_path: str = os.path.j
 
     return object_detection_metadata
 
-od_metadata = detect_visitors_on_video('out.mp4', 0)
-
-print(od_metadata)
+if __name__ == '__main__':
+    od_metadata = detect_visitors_on_video('out.mp4', 0)
+    print(od_metadata)
