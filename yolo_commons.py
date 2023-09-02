@@ -1,4 +1,4 @@
-from ultralytics import YOLO
+from ultralytics.models.yolo import YOLO
 import torch
 import os
 import numpy as np
@@ -24,7 +24,6 @@ def process_detection_results(result):
     else:
         detection = 0
         number_of_visitors = 0
-
     return detection, number_of_visitors, boxes, confs, classes
 
 def save_label_file(label_path, boxes, visitor_category):
