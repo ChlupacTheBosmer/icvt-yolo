@@ -19,7 +19,7 @@ def detect_visitors_on_video(video_path, model_path: str = os.path.join('resourc
     frame_number = -(frame_skip-1)
     for r in results:
 
-        detection, number_of_visitors, boxes, confs, classes = process_detection_results(r)
+        detection, number_of_visitors, boxes, confs, classes = process_detection_results(r, False)
 
         object_detection_metadata = [frame_number, detection, number_of_visitors, boxes, confs, classes]
 
