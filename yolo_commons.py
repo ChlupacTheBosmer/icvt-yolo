@@ -1,29 +1,29 @@
-from ultralytics import YOLO
-import torch
-import os
+from typing import Generator, Union, List, Tuple
 import numpy as np
 
-def process_detection_results(result):
 
-    # Define default values
+def process_detection_results(result: Generator, numpy_arrays: bool = True) -> Tuple[int, int, List[Union[np.ndarray, list]], List[Union[float, np.ndarray]], List[int]]:
+
+    # Initialize default values
+    detection = 0
+    number_of_visitors = 0
     boxes = []
     confs = []
     classes = []
 
-    # If any visitor detected
     if len(result.boxes) > 0:
-
-        # Set variables
+        # Set detection variables
         detection = 1
-        number_of_visitors = result.__len__()
-        for i, box in enumerate(result.boxes):
-            boxes.append(result.boxes.xywhn[i].cpu().numpy())
-            confs.append(result.boxes.conf[i].cpu().numpy())
-            classes.append(int(list(result.boxes.cls)[i]))
+        number_of_visitors = len(result.boxes)
 
-    else:
-        detection = 0
-        number_of_visitors = 0
+        for i, box in enumerate(result.boxes):
+            # Gather boxes and confidence scores
+            box_data = box.xywhn.cpu().numpy()[0] if numpy_arrays else box.xywhn.cpu().tolist()[0]
+            conf_data = box.conf.cpu().numpy()[0] if numpy_arrays else box.conf.cpu().tolist()[0]
+
+            boxes.append(box_data)
+            confs.append(conf_data)
+            classes.append(int(list(box.cls)[i]))
 
     return detection, number_of_visitors, boxes, confs, classes
 
