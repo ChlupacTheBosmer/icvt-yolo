@@ -7,7 +7,7 @@ import numpy as np
 
 def detect_visitors_in_frame_array(frame_numpy_array, metadata, model_path: str = os.path.join('resources', 'yolo', 'best.pt'), image_size: tuple = (640, 640),):
 
-    #print(f"(Y) - YOLO func initiated")
+    print(f"(Y) - YOLO func initiated")
     # Load a pretrained YOLOv8n model
     model = YOLO(model_path)
 
@@ -15,7 +15,7 @@ def detect_visitors_in_frame_array(frame_numpy_array, metadata, model_path: str 
     frame_numbers = metadata['frame_numbers']
     visit_numbers = metadata['visit_numbers']
     roi_number = metadata['roi_number']
-    device = 0 if torch.cuda.is_available() and torch.cuda.device_count() > 0 else None
+    device = 0 if torch.cuda.is_available() and torch.cuda.device_count() > 0 else "cpu"
     #print(f"(Y) - YOLO func defined variables")
     #print(f"CUDA AVAILABILITY ----------- <{torch.cuda.device_count()}>")
     # FLatten the 4D array into a list of 3D arrays
@@ -28,7 +28,7 @@ def detect_visitors_in_frame_array(frame_numpy_array, metadata, model_path: str 
 
     for r, frame_number, visit_number in zip(results, frame_numbers, visit_numbers):
 
-        #print(f"(Y) - YOLO func result generated")
+        print(f"(Y) - YOLO func result generated")
 
         detection, number_of_visitors, boxes, confs, classes = process_detection_results(r)
 
