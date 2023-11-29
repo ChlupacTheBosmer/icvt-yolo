@@ -16,8 +16,8 @@ def detect_visitors_in_frame_array(frame_numpy_array, metadata, model_path: str 
     visit_numbers = metadata['visit_numbers']
     roi_number = metadata['roi_number']
     device = 0 if torch.cuda.is_available() and torch.cuda.device_count() > 0 else "cpu"
-    #print(f"(Y) - YOLO func defined variables")
-    #print(f"CUDA AVAILABILITY ----------- <{torch.cuda.device_count()}>")
+    print(f"(Y) - YOLO func defined variables")
+    print(f"CUDA AVAILABILITY ----------- <{torch.cuda.device_count()}>")
     # FLatten the 4D array into a list of 3D arrays
     list_of_frames = np.split(frame_numpy_array, frame_numpy_array.shape[0], axis=0)
     # Removing singleton dimension
